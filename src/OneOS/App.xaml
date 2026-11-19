@@ -3,7 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <SolidColorBrush x:Key="SurfaceBrush" Color="#FFF6F7FB" />
-        <SolidColorBrush x:Key="TextBrush" Color="#FF22243A" />
+        <SolidColorBrush x:Key="TextBrush" Color="#FF252840" />
+        <SolidColorBrush x:Key="MutedBrush" Color="#FF677188" />
+        <SolidColorBrush x:Key="CardBrush" Color="#DDF9FAFF" />
+        <SolidColorBrush x:Key="DockBrush" Color="#EDF9FAFF" />
+        <SolidColorBrush x:Key="InputBrush" Color="#FFF0F2FA" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#FF6576D9" />
+        <SolidColorBrush x:Key="StrokeBrush" Color="#88FFFFFF" />
+        <LinearGradientBrush x:Key="DesktopBrush" StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#FFE9EEF9" Offset="0" />
+            <GradientStop Color="#FFDBE6F5" Offset="0.52" />
+            <GradientStop Color="#FFF1E4EB" Offset="1" />
+        </LinearGradientBrush>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+        </Style>
+        <Style x:Key="SoftButton" TargetType="Button">
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="Background" Value="{DynamicResource InputBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="14,8" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Shape" Background="{TemplateBinding Background}"
+                                CornerRadius="14" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Shape" Property="Opacity" Value="0.78" /></Trigger>
+                            <Trigger Property="IsPressed" Value="True"><Setter TargetName="Shape" Property="Opacity" Value="0.60" /></Trigger>
+                            <Trigger Property="IsEnabled" Value="False"><Setter TargetName="Shape" Property="Opacity" Value="0.42" /></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource SoftButton}" />
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="Background" Value="{DynamicResource InputBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource StrokeBrush}" />
+            <Setter Property="Padding" Value="10,7" />
+        </Style>
     </Application.Resources>
 </Application>

@@ -6,17 +6,17 @@ The deliverable is a regular WPF desktop application for Windows. Windows contin
 
 ## Components
 
-`src/OneOS` contains WPF composition, desktop surface, launcher, dock, theme integration, and in-app window controller. `src/OneOS/Apps` contains the four internal views. `src/OneOS/Services` contains application item presentation, theme preferences, and window lifecycle behavior. `src/OneOS.Core` contains Windows-UI-independent app metadata/search and JSON preferences storage. App launch is an explicit registry-to-view mapping; search does not evaluate commands or input as code.
+`src/OneOS` contains WPF composition, desktop surface, launcher, dock, theme integration, and in-app window controller. `src/OneOS/Apps` contains internal Settings, Notes, and Calculator views. `src/OneOS/Services` contains application item presentation, theme preferences, window lifecycle behavior, and fixed Windows shell launch destinations. `src/OneOS.Core` contains Windows-UI-independent app metadata/search, JSON preferences storage, and window geometry. App launch is an explicit registry-to-view mapping; search does not evaluate commands or input as code.
 
 `tests/OneOS.Core.Tests` is a dependency-free executable test harness for core functionality. It is not a WPF UI test suite.
 
 ## App persistence and external integration
 
-Theme configuration is JSON under `%LOCALAPPDATA%/OneOS/settings.json`; writes use a temporary file and replace. Notes are explicit plain-text saves under `%LOCALAPPDATA%/OneOS/notes.txt`. File browsing displays drives and folder contents and delegates a chosen file to its registered Windows application with shell execution. Destructive file actions are not implemented.
+Theme configuration is JSON under `%LOCALAPPDATA%/OneOS/settings.json`; writes use a temporary file and replace. Notes are explicit plain-text saves under `%LOCALAPPDATA%/OneOS/notes.txt`. The File Explorer launcher and Windows Settings handoff use fixed destinations; these launches are implemented but still require Windows runtime verification. No destructive file actions are implemented.
 
 ## Window model
 
-The WPF main window represents the ONE OS workspace. Internal apps are movable/resizable content windows on a canvas, with z-order focus, minimize, maximize/restore, and close actions. They are not native top-level OS windows. The system taskbar and security controls remain available.
+The WPF main window represents the ONE OS workspace. The floating dock overlays the workspace rather than consuming its height and remains above maximized internal content. Internal apps are movable/resizable content windows on a canvas, with z-order focus, minimize, maximize/restore, and close actions. They are not native top-level OS windows. The system taskbar and security controls remain available.
 
 ## Extension
 

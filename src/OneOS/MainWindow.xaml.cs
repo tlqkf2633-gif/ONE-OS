@@ -20,7 +20,6 @@ public partial class MainWindow : Window
         InitializeComponent();
         theme = new ThemeService();
         desktop = new DesktopController(DesktopCanvas, theme, apps);
-        desktop.StateChanged += RefreshDock;
         DockItems.ItemsSource = apps;
         LauncherItems.ItemsSource = AppCatalog.All.Select(x => new AppItem(x)).ToArray();
         UpdateClock();
@@ -28,9 +27,10 @@ public partial class MainWindow : Window
         clockTimer.Tick += (_, _) => UpdateClock();
         clockTimer.Start();
         Closed += (_, _) => clockTimer.Stop();
+        StateChanged += (_, _) => UpdateMainWindowGlyph();
         SearchBox.PreviewKeyDown += SearchBoxKeyDown;
         PreviewKeyDown += MainWindowKeyDown;
-        theme.Changed += () => { /* DynamicResource bindings update when shared brushes are replaced. */ };
+        UpdateMainWindowGlyph();
     }
 
     private void UpdateClock()
@@ -101,10 +101,25 @@ public partial class MainWindow : Window
         desktop.Launch(id);
     }
 
-    private void RefreshDock()
+    private void ExitClick(object sender, RoutedEventArgs e) => Close();
+
+    private void MinimizeMainWindowClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
+
+    private void ToggleMainWindowStateClick(object sender, RoutedEventArgs e)
     {
-        DockItems.Items.Refresh();
+        WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+        UpdateMainWindowGlyph();
     }
 
-    private void ExitClick(object sender, RoutedEventArgs e) => Close();
+    private void CloseMainWindowClick(object sender, RoutedEventArgs e) => Close();
+
+    private void UpdateMainWindowGlyph()
+    {
+        if (MaximizeGlyph is not null)
+        {
+            var maximized = WindowState == WindowState.Maximized;
+            MaximizeGlyph.Text = maximized ? "\uE923" : "\uE922";
+            MaximizeButton.ToolTip = maximized ? "Restore" : "Maximize";
+        }
+    }
 }

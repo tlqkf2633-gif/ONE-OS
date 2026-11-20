@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,6 +21,15 @@ public static class SettingsView
             Text = $"Current theme: {(isDark() ? "Dark" : "Light")}",
             Foreground = ViewFactoryStyles.MutedBrush, Margin = new Thickness(0, 8, 0, 0)
         });
+        page.Children.Add(ViewFactoryStyles.Button("Open Windows Settings", (_, _) =>
+        {
+            try { Services.WindowsShellIntegration.OpenWindowsSettings(); }
+            catch (Exception ex) when (ex is Win32Exception or InvalidOperationException or PlatformNotSupportedException)
+            {
+                MessageBox.Show($"Windows Settings could not be opened.\n\n{ex.Message}",
+                    "ONE OS", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }));
         return page;
     }
 }

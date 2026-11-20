@@ -1,21 +1,21 @@
 # ONE OS — project state
 
-Updated: 2026-11-19
+Updated: 2026-11-20
 
 ## Milestone and stack
 
-Initial functional Windows desktop prototype. C# / .NET 10 LTS / WPF (`net10.0-windows`). Windows manages the kernel, drivers, security and native apps; this remains an ordinary app, not an independent OS or shell replacement. WPF UI is in `src/OneOS`; platform-neutral app catalog and preferences live in `src/OneOS.Core`.
+Redesign and interaction-fix milestone on `dev/redesign`. C# / .NET 10 / WPF (`net10.0-windows`). Windows manages the kernel, drivers, security and native apps; this remains an ordinary app, not an independent OS or shell replacement. WPF UI and Windows-only launch adapter are in `src/OneOS`; platform-neutral app catalog, preferences, and window geometry live in `src/OneOS.Core`.
 
 ## Implemented
 
-Desktop canvas, floating dock with open-app indicators, searchable launcher, `Ctrl+Space`, four internal apps (Settings, Notes, Calculator, Files), and in-app windows with move, resize, focus, minimize, maximize/restore and close. Light/dark theme uses saved local preferences. Notes save explicitly. Files listing is read-only; open delegates to the Windows registered app. Safe exit is available from the launcher.
+Desktop canvas, translucent floating dock overlay, searchable launcher, `Ctrl+Space`, internal Settings/Notes/Calculator views, and workspace windows with title-bar move, eight-direction resize, focus, minimize, maximize/restore, and close. Main window has explicit client controls alongside native Windows controls. Light/dark theme uses saved local preferences; Notes save explicitly. The launcher delegates File Explorer and the Settings view can open Windows Settings. The dock remains over maximized internal content but is not system-wide. Safe exit is available from the launcher.
 
 ## Verification
 
-Microsoft .NET SDK 10.0.404 official build verified by SHA-512. WPF Release cross-target build on Ubuntu: **BUILD VERIFIED**, zero warnings/errors (2026-11-19). Platform-independent core test harness: **TESTED**, 6/6 passed for app catalog search and preferences persistence/error handling.
+WPF Release cross-target build on Ubuntu with .NET SDK 10.0.404: **BUILD VERIFIED**, zero warnings/errors (2026-11-20). Platform-independent core test harness: **TESTED**, 11/11 passed for app catalog search, preferences, and window geometry.
 
-Windows execution, rendered UI, interactions, shell integration and shutdown: **NOT TESTED**. Ubuntu sandbox has no Windows runtime or Wine. See `TEST_RESULTS.md` and `KNOWN_ISSUES.md`.
+Windows execution, rendered UI, interactions, Explorer/Settings launch, DPI behavior and shutdown: **NOT TESTED**. Ubuntu sandbox has no Windows runtime or Wine. See `TEST_REPORT.md` and `KNOWN_ISSUES.md`.
 
 ## Next
 
-Run on a Windows 10/11 PC and verify startup/shutdown, launcher/search, all app windows, resize/move/focus, theme persistence and file navigation. Fix any observed issues before merging into `main` or calling this a stable release. Public remote: `https://github.com/tlqkf2633-gif/ONE-OS`; development branch: `dev/prototype`.
+Run on Windows 10/11 and complete the checklist in `TEST_REPORT.md`. Fix observed issues before merging to `main` or calling this a stable release. Public remote: `https://github.com/tlqkf2633-gif/ONE-OS`; working branch: `dev/redesign`. Do not perform shell replacement, system configuration changes, or destructive app removal.
